@@ -35,13 +35,13 @@ type Punto = {
     | "frontera"
     | "paso"
     | "alerta";
-  dia?: number;
+  dia: number | string; // Permitir string para identificar variantes (ej: "4A", "4B")
   descripcion?: string;
   bandera?: string;
 };
 
 type RutaDia = {
-  dia: number;
+  dia: number | string;
   fecha: string;
   titulo: string;
   color: string;
@@ -138,6 +138,15 @@ const PUNTOS: Punto[] = [
   */
 
   {
+    nombre: "Mendoza Capital",
+    lat: -32.8895,
+    lng: -68.8458,
+    tipo: "inicio",
+    dia: 2,
+    descripcion: "Inicio de la jornada de alta montaña",
+  },
+
+  {
     nombre: "Uspallata",
     lat: -32.592,
     lng: -69.347,
@@ -224,16 +233,25 @@ const PUNTOS: Punto[] = [
 
   /*
   ------------------------------------------------------------------------
-  DÍA 4 - OPCIÓN AGUA NEGRA
+  DÍA 4 - OPCIÓN A: AGUA NEGRA (La Serena → San Juan)
   ------------------------------------------------------------------------
   */
+
+  {
+    nombre: "La Serena",
+    lat: -29.9027,
+    lng: -71.2519,
+    tipo: "inicio",
+    dia: "4A",
+    descripcion: "Inicio Opción Agua Negra",
+  },
 
   {
     nombre: "Vicuña",
     lat: -30.031,
     lng: -70.708,
     tipo: "pueblo",
-    dia: 4,
+    dia: "4A",
   },
 
   {
@@ -241,7 +259,7 @@ const PUNTOS: Punto[] = [
     lat: -30.36,
     lng: -69.82,
     tipo: "frontera",
-    dia: 4,
+    dia: "4A",
     descripcion:
       "ALERTA: actualmente figura cerrado de junio a octubre. Verificar nuevamente antes de viajar.",
   },
@@ -251,7 +269,7 @@ const PUNTOS: Punto[] = [
     lat: -30.16,
     lng: -69.16,
     tipo: "pueblo",
-    dia: 4,
+    dia: "4A",
   },
 
   {
@@ -259,20 +277,21 @@ const PUNTOS: Punto[] = [
     lat: -30.241,
     lng: -68.746,
     tipo: "ciudad",
-    dia: 4,
+    dia: "4A",
   },
 
   {
     nombre: "San Juan",
     lat: -31.5375,
     lng: -68.5364,
-    tipo: "ciudad",
-    dia: 4,
+    tipo: "fin",
+    dia: "4A",
+    descripcion: "Fin de la ruta por Paso Agua Negra",
   },
 
   /*
   ------------------------------------------------------------------------
-  DÍA 4 - ALTERNATIVA SICO
+  DÍA 4 - OPCIÓN B: ALTERNATIVA SICO (San Pedro de Atacama → Salta)
   ------------------------------------------------------------------------
   */
 
@@ -280,9 +299,9 @@ const PUNTOS: Punto[] = [
     nombre: "San Pedro de Atacama",
     lat: -22.9087,
     lng: -68.1997,
-    tipo: "ciudad",
-    dia: 4,
-    descripcion: "Alternativa hacia Paso Sico",
+    tipo: "inicio",
+    dia: "4B",
+    descripcion: "Inicio Opción Alternativa Sico",
   },
 
   {
@@ -290,7 +309,7 @@ const PUNTOS: Punto[] = [
     lat: -23.870,
     lng: -67.182,
     tipo: "frontera",
-    dia: 4,
+    dia: "4B",
     descripcion:
       "Alternativa de cruce Argentina-Chile. Verificar estado oficial antes de salir.",
   },
@@ -300,7 +319,7 @@ const PUNTOS: Punto[] = [
     lat: -24.221,
     lng: -66.319,
     tipo: "pueblo",
-    dia: 4,
+    dia: "4B",
     descripcion: "Entrada a Argentina por RN51",
   },
 
@@ -309,7 +328,7 @@ const PUNTOS: Punto[] = [
     lat: -24.7821,
     lng: -65.4232,
     tipo: "fin",
-    dia: 4,
+    dia: "4B",
     descripcion:
       "Destino recomendado si se utiliza la alternativa por Paso Sico.",
   },
@@ -430,7 +449,7 @@ const ESTACIONES: Punto[] = [
     lat: -30.031,
     lng: -70.708,
     tipo: "combustible",
-    dia: 4,
+    dia: "4A",
     bandera: "Varias",
   },
 
@@ -439,7 +458,7 @@ const ESTACIONES: Punto[] = [
     lat: -30.241,
     lng: -68.746,
     tipo: "combustible",
-    dia: 4,
+    dia: "4A",
     bandera: "YPF",
   },
 
@@ -448,7 +467,7 @@ const ESTACIONES: Punto[] = [
     lat: -31.5375,
     lng: -68.5364,
     tipo: "combustible",
-    dia: 4,
+    dia: "4A",
     bandera: "YPF",
   },
 
@@ -457,7 +476,7 @@ const ESTACIONES: Punto[] = [
     lat: -24.221,
     lng: -66.319,
     tipo: "combustible",
-    dia: 4,
+    dia: "4B",
     bandera: "YPF / otras",
   },
 
@@ -466,7 +485,7 @@ const ESTACIONES: Punto[] = [
     lat: -24.7821,
     lng: -65.4232,
     tipo: "combustible",
-    dia: 4,
+    dia: "4B",
     bandera: "YPF",
   },
 ];
@@ -500,11 +519,18 @@ const RUTAS: RutaDia[] = [
     puntos: PUNTOS.filter((p) => p.dia === 3),
   },
   {
-    dia: 4,
+    dia: "4A",
     fecha: "20/09/2026",
-    titulo: "Chile → Argentina",
+    titulo: "Opción A: La Serena → Agua Negra → San Juan",
     color: "#a855f7",
-    puntos: PUNTOS.filter((p) => p.dia === 4),
+    puntos: PUNTOS.filter((p) => p.dia === "4A"),
+  },
+  {
+    dia: "4B",
+    fecha: "20/09/2026",
+    titulo: "Opción B: Atacama → Paso Sico → Salta",
+    color: "#ec4899",
+    puntos: PUNTOS.filter((p) => p.dia === "4B"),
   },
 ];
 
@@ -580,7 +606,7 @@ export default function RutaViajeMoto() {
   const mapInstance = useRef<L.Map | null>(null);
   const layersRef = useRef<L.LayerGroup | null>(null);
 
-  const [diaActivo, setDiaActivo] = useState(1);
+  const [diaActivo, setDiaActivo] = useState<number | string>(1);
 
   /*
   ------------------------------------------------------------------------
@@ -591,7 +617,6 @@ export default function RutaViajeMoto() {
   useEffect(() => {
     if (!mapRef.current || mapInstance.current) return;
 
-    // Configurar icono por defecto apuntando al CDN de Leaflet
     const DefaultIcon = L.icon({
       iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
       shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
@@ -1157,7 +1182,7 @@ export default function RutaViajeMoto() {
             }
             onClick={() => setDiaActivo(ruta.dia)}
           >
-            Día {ruta.dia} · {ruta.fecha}
+            {typeof ruta.dia === "number" ? `Día ${ruta.dia}` : `Día ${ruta.dia}`} · {ruta.fecha}
           </button>
         ))}
 
@@ -1182,7 +1207,7 @@ export default function RutaViajeMoto() {
 
           <section className="card">
             <h2>
-              Día {diaActivo}
+              {typeof diaActivo === "number" ? `Día ${diaActivo}` : `Opción ${diaActivo}`}
             </h2>
 
             <div className="small">
@@ -1339,14 +1364,25 @@ export default function RutaViajeMoto() {
               </>
             )}
 
-            {diaActivo === 4 && (
+            {diaActivo === "4A" && (
               <>
-                <strong>Cordillera / Atacama / Puna</strong>
+                <strong>Cordillera / Paso Agua Negra</strong>
                 <p className="small">
                   Mucha amplitud térmica.
                   Las zonas de gran altura pueden
                   presentar temperaturas bajo cero
                   durante la madrugada.
+                </p>
+              </>
+            )}
+
+            {diaActivo === "4B" && (
+              <>
+                <strong>Puna de Atacama / Salta</strong>
+                <p className="small">
+                  Altitud elevada y vientos fuertes.
+                  Temperaturas muy bajas por la mañana
+                  en San Antonio de los Cobres.
                 </p>
               </>
             )}
