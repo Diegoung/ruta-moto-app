@@ -2,9 +2,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
-
 /*
 |--------------------------------------------------------------------------
 | CONFIGURACIÓN DEL VIAJE
@@ -594,9 +591,10 @@ export default function RutaViajeMoto() {
   useEffect(() => {
     if (!mapRef.current || mapInstance.current) return;
 
+    // Configurar icono por defecto apuntando al CDN de Leaflet
     const DefaultIcon = L.icon({
-      iconUrl: markerIcon,
-      shadowUrl: markerShadow,
+      iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
       iconSize: [25, 41],
       iconAnchor: [12, 41],
       popupAnchor: [1, -34],
@@ -767,9 +765,9 @@ export default function RutaViajeMoto() {
   }, [diaActivo]);
 
   /*
-  |--------------------------------------------------------------------------
+  ------------------------------------------------------------------------
   | Cálculo de distancias aproximadas
-  |--------------------------------------------------------------------------
+  ------------------------------------------------------------------------
   */
 
   const resumenDias = useMemo(() => {
@@ -797,9 +795,9 @@ export default function RutaViajeMoto() {
   }, []);
 
   /*
-  |--------------------------------------------------------------------------
+  ------------------------------------------------------------------------
   | Cálculo combustible
-  |--------------------------------------------------------------------------
+  ------------------------------------------------------------------------
   */
 
   function calcularTramosCombustible(ruta: RutaDia) {
@@ -842,9 +840,9 @@ export default function RutaViajeMoto() {
   );
 
   /*
-  |--------------------------------------------------------------------------
+  ------------------------------------------------------------------------
   | Imprimir
-  |--------------------------------------------------------------------------
+  ------------------------------------------------------------------------
   */
 
   function imprimirRuta() {
