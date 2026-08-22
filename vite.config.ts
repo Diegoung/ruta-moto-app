@@ -7,11 +7,10 @@ export default defineConfig({
   base: '/',
   build: {
     rollupOptions: {
+      external: ['leaflet'],
       output: {
-        manualChunks(id) {
-          if (id.includes('node_modules/leaflet')) {
-            return 'leaflet';
-          }
+        globals: {
+          leaflet: 'L'
         }
       }
     }
